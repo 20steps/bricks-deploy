@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-echo "after restart\n"
+echo "After restart of Bricks app ...\n"

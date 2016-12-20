@@ -18,6 +18,7 @@ class BricksDeploy::Generator < Thor::Group
   def copy_restart_callbacks
     copy_hook 'before_restart.sh', 'bin/deploy/remote/before_restart'
     copy_hook 'after_restart.sh', 'bin/deploy/remote/after_restart'
+    copy_hook 'setup.sh', 'bin/deploy/remote/setup'
   end
 
   private

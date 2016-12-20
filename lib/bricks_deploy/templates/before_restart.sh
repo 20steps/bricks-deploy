@@ -1,3 +1,3 @@
 #!/usr/bin/env ruby
 
-echo "before restart\n"
+echo "Before restart of Bricks app ...\n"
