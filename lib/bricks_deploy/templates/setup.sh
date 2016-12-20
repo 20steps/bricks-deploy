@@ -1,3 +1,3 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
-echo "Setting up Bricks app ... \n"
+echo "Setting up Bricks app ..."

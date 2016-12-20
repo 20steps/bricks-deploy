@@ -38,11 +38,12 @@ Initial setup
 2.  Run the setup task:
 
     ```sh
-    git deploy setup -r "production"
+    git deploy setup -r "production" --stage "live" --color "twentysteps"
     ```
 
     This will initialize the remote git repository in the deploy directory
-    (`/apps/mynewapp` in the above example) and install the remote git hook.
+    (`/apps/mynewapp` in the above example), install the remote git hook and
+    output the string "live" in app/config/stage and "twentysteps" in app/config/color.
 
 3.  Run the init task:
 
@@ -50,19 +51,13 @@ Initial setup
     git deploy init
     ```
 
-    This generates default deploy callback scripts in the `deploy/` directory.
-    You should check them in git because they are going to be executed on the
-    server during each deploy.
+    This generates default deploy callback scripts in the `bin/deploy/remote/` directory - edit the callback scripts according to your needs (cp. below)
 
 4.  Push the code.
 
     ```sh
     git push production master
     ```
-
-3.  Login to your server and manually perform necessary one-time administrative operations. This might include:
-    * set up the Apache/nginx virtual host for this application;
-    * check your `config/database.yml` and create the production database.
 
 
 Everyday deployments
@@ -82,15 +77,12 @@ install the "bricks-deploy" gem.
 On every deploy, the default `deploy/after_push` script performs the following:
 
 1. updates git submodules (if there are any);
-2. runs `bundle install --deployment` if there is a Gemfile;
-3. runs `rake db:migrate` if new migrations have been added;
-4. clears cached CSS/JS assets in "public/stylesheets" and "public/javascripts";
 5. restarts the web application.
 
-You can customize all this by editing generated scripts in the `deploy/`
+You can customize all this by editing generated scripts in the `app/config/remote/`
 directory of your app.
 
-Deployments are logged to `log/deploy.log` in your application's directory.
+Deployments are logged to `var/logs/deploy.log` in your application's directory.
 
 
 How it works
@@ -101,12 +93,12 @@ repository. This is how your code on the server is kept up to date. This script
 checks out the latest version of your project from the current branch and
 runs the following callback scripts:
 
-* `deploy/setup` - on first push.
-* `deploy/after_push` - on subsequent pushes. It in turn executes:
+* `bin/deploy/remote/setup` - on first push.
+* `bin/deploy/remote/after_push` - on subsequent pushes. It in turn executes:
   * `deploy/before_restart`
   * `deploy/restart`
   * `deploy/after_restart`
-* `deploy/rollback` - executed for `git deploy rollback`.
+* `bin/deploy/remote/rollback` - executed for `git deploy rollback`.
 
 All of the callbacks are optional. These scripts are ordinary Unix executables.
 The ones which get generated for you by `git deploy init` are written in shell
@@ -130,5 +122,4 @@ Extra commands
 * `git deploy upload <files>` - Copy local files to the remote app
 
 
-
-  [heroku]: http://heroku.com/
+  [Heroku]: http://heroku.com/

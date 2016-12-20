@@ -1,3 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
+
 touch var/tmp/restart.txt
-echo "Restarting Bricks app... \n"
+echo "Restarting Bricks app ..."

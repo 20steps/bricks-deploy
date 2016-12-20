@@ -1,3 +1,3 @@
-#!/usr/bin/env ruby
+#!/usr/bin/env bash
 
-echo "Before restart of Bricks app ...\n"
+echo "Before restart of Bricks app ..."
