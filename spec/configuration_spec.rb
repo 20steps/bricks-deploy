@@ -1,7 +1,7 @@
 require 'rspec/autorun'
-require 'git_deploy/configuration'
+require 'bricks_deploy/configuration'
 
-describe GitDeploy::Configuration do
+describe BricksDeploy::Configuration do
 
   subject {
     mod = described_class

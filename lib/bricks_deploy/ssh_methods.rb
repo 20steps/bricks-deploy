@@ -1,4 +1,4 @@
-class GitDeploy
+class BricksDeploy
   module SSHMethods
     private
 

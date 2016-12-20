@@ -1,0 +1,3 @@
+#!/usr/bin/env ruby
+require 'bricks_deploy'
+BricksDeploy.start

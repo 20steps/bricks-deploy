@@ -2,11 +2,11 @@ require 'thor'
 require 'net/ssh'
 require 'net/scp'
 
-class GitDeploy < Thor
+class BricksDeploy < Thor
   LOCAL_DIR = File.expand_path('..', __FILE__)
 
-  require 'git_deploy/configuration'
-  require 'git_deploy/ssh_methods'
+  require 'bricks_deploy/configuration'
+  require 'bricks_deploy/ssh_methods'
   include Configuration
   include SSHMethods
 
@@ -15,7 +15,7 @@ class GitDeploy < Thor
 
   desc "init", "Generates deployment customization scripts for your app"
   def init
-    require 'git_deploy/generator'
+    require 'bricks_deploy/generator'
     Generator::start([])
   end
 

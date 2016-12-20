@@ -1,6 +1,6 @@
 require 'thor/group'
 
-class GitDeploy::Generator < Thor::Group
+class BricksDeploy::Generator < Thor::Group
   include Thor::Actions
 
   def self.source_root

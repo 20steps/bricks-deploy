@@ -1,13 +1,13 @@
-Easy git deployment
-===================
+Easy deployment of Bricks Apps
+===============================
 
 Straightforward, [Heroku][]-style, push-based deployment. Your deploys can become as simple as this:
 
     $ git push production master
 
-To get started, install the "git-deploy" gem.
+To get started, install the "bricks-deploy" gem.
 
-    gem install git-deploy
+    gem install bricks-deploy
 
 Only the person who is setting up deployment for the first time needs to install
 the gem. You don't have to add it to your project's Gemfile.
@@ -16,7 +16,7 @@ the gem. You don't have to add it to your project's Gemfile.
 Which app languages/frameworks are supported?
 ---------------------------------------------
 
-Regardless of the fact that this tool is mostly written in Ruby, git-deploy can be useful for any kind of code that needs deploying on a remote server. The default scripts are suited for Ruby web apps, but can be edited to accommodate other frameworks.
+Regardless of the fact that this tool is mostly written in Ruby, bricks-deploy can be useful for any kind of code that needs deploying on a remote server. The default scripts are suited for Ruby web apps, but can be edited to accommodate other frameworks.
 
 Your deployment is customized with per-project callback scripts which can be written in any language.
 
@@ -77,7 +77,7 @@ currently checked out on the remote**:
     git push production master
 
 Because the deployments are performed with git, nobody else on the team needs to
-install the "git-deploy" gem.
+install the "bricks-deploy" gem.
 
 On every deploy, the default `deploy/after_push` script performs the following:
 

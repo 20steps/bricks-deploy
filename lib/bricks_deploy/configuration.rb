@@ -2,7 +2,7 @@ require 'uri'
 require 'cgi'
 require 'forwardable'
 
-class GitDeploy
+class BricksDeploy
   module Configuration
     private
 
