@@ -22,6 +22,8 @@ class BricksDeploy < Thor
   desc "setup", "Create the remote git repository and install push hooks for it"
   method_option :shared, :aliases => '-g', :type => :boolean, :default => false
   method_option :sudo, :aliases => '-s', :type => :boolean, :default => false
+  method_option :stage, :aliases => '--stage', :type => :string, :default => 'dev'
+  method_option :color, :aliases => '--color', :type => :string, :default => 'twentysteps'
   def setup
     sudo = options.sudo? ? "#{sudo_cmd} " : ''
 
@@ -39,6 +41,9 @@ class BricksDeploy < Thor
       cmd << "sed -i'' -e 's/master/#{branch}/' .git/HEAD" unless branch == 'master'
       cmd << "git config --bool receive.denyNonFastForwards false" if options.shared?
       cmd << "git config receive.denyCurrentBranch ignore"
+      cmd << "mkdir deploy"
+      cmd << "echo #{options.stage} > deploy/stage"
+      cmd << "echo #{options.color} > deploy/color"
     end
 
     invoke :hooks
@@ -52,7 +57,7 @@ class BricksDeploy < Thor
     scp_upload "#{hooks_dir}/post-receive.sh" => "#{remote_dir}/post-receive"
     run "chmod +x #{remote_dir}/post-receive"
   end
-  
+
   desc "restart", "Restarts the application on the server"
   def restart
     run "cd #{deploy_to} && deploy/restart 2>&1 | tee -a log/deploy.log"
