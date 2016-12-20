@@ -31,13 +31,13 @@ fi
 umask 002
 git reset --hard
 
-logfile=log/deploy.log
-restart=tmp/restart.txt
+logfile=var/logs/deploy.log
+restart=var/tmp/restart.txt
 
 if [ -z "${oldrev//0}" ]; then
   # this is the first push; this branch was just created
-  mkdir -p log tmp
-  chmod 0775 log tmp
+  mkdir -p var/logs var/tmp
+  chmod 0775 var/logs var/tmp
   touch $logfile $restart
   chmod 0664 $logfile $restart
 
@@ -45,11 +45,11 @@ if [ -z "${oldrev//0}" ]; then
   git submodule update --recursive --init 2>&1 | tee -a $logfile
 
   # execute the one-time setup hook
-  [ -x deploy/setup ] && deploy/setup $oldrev $newrev 2>&1 | tee -a $logfile
+  [ -x bin/deploy/remote/setup ] && bin/deploy/remote/setup $oldrev $newrev 2>&1 | tee -a $logfile
 else
   # log timestamp
   echo ==== $(date) ==== >> $logfile
 
   # execute the main deploy hook
-  [ -x deploy/after_push ] && deploy/after_push $oldrev $newrev 2>&1 | tee -a $logfile
+  [ -x bin/deploy/remote/after_push ] && bin/deploy/remote/after_push $oldrev $newrev 2>&1 | tee -a $logfile
 fi

@@ -1,3 +1,3 @@
 #!/bin/sh
-touch tmp/restart.txt
-echo "restarting Passenger app"
+touch var/tmp/restart.txt
+echo "Restarting Bricks app... \n"

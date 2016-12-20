@@ -41,9 +41,9 @@ class BricksDeploy < Thor
       cmd << "sed -i'' -e 's/master/#{branch}/' .git/HEAD" unless branch == 'master'
       cmd << "git config --bool receive.denyNonFastForwards false" if options.shared?
       cmd << "git config receive.denyCurrentBranch ignore"
-      cmd << "mkdir deploy"
-      cmd << "echo #{options.stage} > deploy/stage"
-      cmd << "echo #{options.color} > deploy/color"
+      cmd << "mkdir -p app/config/"
+      cmd << "echo #{options.stage} > app/config/stage"
+      cmd << "echo #{options.color} > app/config/color"
     end
 
     invoke :hooks
@@ -60,7 +60,7 @@ class BricksDeploy < Thor
 
   desc "restart", "Restarts the application on the server"
   def restart
-    run "cd #{deploy_to} && deploy/restart 2>&1 | tee -a log/deploy.log"
+    run "cd #{deploy_to} && bin/deploy/remote/restart 2>&1 | tee -a var/logs/deploy.log"
   end
 
   desc "rerun", "Runs the `deploy/after_push' callback as if a new revision was pushed via git"
@@ -69,7 +69,7 @@ class BricksDeploy < Thor
       bash -e -c '
         cd '#{deploy_to}'
         declare -a revs=( $(git rev-parse HEAD@{1} HEAD) )
-        deploy/after_push ${revs[@]} 2>&1 | tee -a log/deploy.log
+        bin/deploy/remote/after_push ${revs[@]} 2>&1 | tee -a var/logs/deploy.log
       '
     BASH
   end
@@ -82,8 +82,8 @@ class BricksDeploy < Thor
         declare -a revs=( $(git rev-parse HEAD HEAD@{1}) )
         git reset --hard ${revs[1]}
         callback=after_push
-        [ -x deploy/rollback ] && callback=rollback
-        deploy/$callback ${revs[@]} 2>&1 | tee -a log/deploy.log
+        [ -x bin/deploy/remote/rollback ] && callback=rollback
+        bin/deploy/remote/$callback ${revs[@]} 2>&1 | tee -a var/logs/deploy.log
       '
     BASH
   end
@@ -93,7 +93,7 @@ class BricksDeploy < Thor
   method_option :lines, :aliases => '-l', :type => :numeric, :default => 20
   def log(n = nil)
     tail_args = options.tail? ? '-f' : "-n#{n || options.lines}"
-    run "tail #{tail_args} #{deploy_to}/log/deploy.log"
+    run "tail #{tail_args} #{deploy_to}/var/logs/deploy.log"
   end
 
   desc "upload <files>", "Copy local files to the remote app"

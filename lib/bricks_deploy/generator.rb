@@ -8,15 +8,16 @@ class BricksDeploy::Generator < Thor::Group
   end
 
   def copy_main_hook
-    copy_hook 'after_push.sh', 'deploy/after_push'
+    copy_hook 'after_push.sh', 'bin/deploy/remote/after_push'
   end
 
   def copy_restart_hook
-    copy_hook 'restart.sh', 'deploy/restart'
+    copy_hook 'restart.sh', 'bin/deploy/remote/restart'
   end
 
   def copy_restart_callbacks
-    copy_hook 'before_restart.rb', 'deploy/before_restart'
+    copy_hook 'before_restart.sh', 'bin/deploy/remote/before_restart'
+    copy_hook 'after_restart.sh', 'bin/deploy/remote/after_restart'
   end
 
   private
