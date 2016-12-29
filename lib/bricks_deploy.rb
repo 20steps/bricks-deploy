@@ -42,8 +42,8 @@ class BricksDeploy < Thor
       cmd << "git config --bool receive.denyNonFastForwards false" if options.shared?
       cmd << "git config receive.denyCurrentBranch ignore"
       cmd << "mkdir -p app/config/"
-      cmd << "echo #{options.stage} > app/config/stage"
-      cmd << "echo #{options.color} > app/config/color"
+      cmd << "echo #{options.stage} > etc/stage"
+      cmd << "echo #{options.color} > etc/color"
     end
 
     invoke :hooks
