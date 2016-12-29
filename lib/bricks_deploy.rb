@@ -41,7 +41,7 @@ class BricksDeploy < Thor
       cmd << "sed -i'' -e 's/master/#{branch}/' .git/HEAD" unless branch == 'master'
       cmd << "git config --bool receive.denyNonFastForwards false" if options.shared?
       cmd << "git config receive.denyCurrentBranch ignore"
-      cmd << "mkdir -p app/config/"
+      cmd << "mkdir -p etc/"
       cmd << "echo #{options.stage} > etc/stage"
       cmd << "echo #{options.color} > etc/color"
     end

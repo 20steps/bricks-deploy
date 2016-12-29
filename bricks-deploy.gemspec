@@ -1,7 +1,7 @@
 # encoding: utf-8
 Gem::Specification.new do |gem|
   gem.name    = 'bricks-deploy'
-  gem.version = '0.6.12'
+  gem.version = '0.6.13'
   gem.executables = %w[ bricks-deploy ]
 
   gem.add_dependency 'thor', '0.14.6'
